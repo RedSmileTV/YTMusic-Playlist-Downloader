@@ -47,24 +47,21 @@ def download_playlist(playlist_id):
         if os.path.exists(os.path.join(playlist['title'], song_title + ".mp3")):
             print(f"'{song_title}' already downloaded.")
 
-        if os.path.exists(file_name) or os.path.exists(playlist['title'] + file_name):
+        if os.path.exists(file_name) or os.path.exists(playlist['title'] + "/" + file_name):
             print(f"'{file_name}' already exists in the current directory or playlist directory.")
             continue
             
         # Download the song using yt-dlp        
         else:
-            os.system('yt-dlp -x --audio-format mp3 --output "%(uploader)s - %(title)s.mp3" ' + song_id)
+            command = f'yt-dlp -x --audio-format mp3 --output "{file_name}" {song_id}'
+            os.system(command)
 
        
-        shutil.move(file_name, playlist['title'] + "/" + file_name)
+        shutil.move(file_name, playlist['title'])
         print(f"'{file_name}' moved to '{playlist['title']}' directory.")
         
 
-    
-            
-
     print("All songs downloaded successfully!")
-
 
 
 # Main function
