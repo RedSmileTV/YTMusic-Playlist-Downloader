@@ -54,7 +54,11 @@ def download_playlist(playlist_id):
         # Download the song using yt-dlp        
         else:
             command = f'yt-dlp -x --audio-format mp3 --output "{file_name}" {song_id}'
-            os.system(command)
+            try:
+                os.system(command)
+            except Exception:
+                print(f"An error occurred while downloading '{song_title}'.")
+                continue
 
        
         try:
