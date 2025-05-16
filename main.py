@@ -43,6 +43,9 @@ def download_playlist(playlist_id):
         file_name = song_artist + " - " + song_title + ".mp3"
         print("Downloading: ", song_title)
 
+        # Remove unwanted characters from the song title
+        file_name = remove_unwanted_char(file_name)
+
         # Check if the song is already downloaded
         if os.path.exists(os.path.join(playlist['title'], song_title + ".mp3")):
             print(f"'{song_title}' already downloaded.")
@@ -62,6 +65,7 @@ def download_playlist(playlist_id):
 
        
         try:
+            file_name = remove_unwanted_char(file_name)
             shutil.move(file_name, playlist['title'])
         except Exception:
             print("A error occurred while moving the file.")
@@ -73,6 +77,13 @@ def download_playlist(playlist_id):
 
     print("All songs downloaded successfully!")
 
+def remove_unwanted_char(song_title):
+    unwanted_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|', '#']
+    for char in unwanted_chars:
+        if char in song_title:
+            song_title = song_title.replace(char, "")
+            print(f"'{char}' is an unwanted character. Removed '{char}' from '{song_title}'.")
+    return song_title
 
 # Main function
 if __name__ == "__main__":
