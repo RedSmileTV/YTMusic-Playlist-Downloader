@@ -57,7 +57,14 @@ def download_playlist(playlist_id):
             os.system(command)
 
        
-        shutil.move(file_name, playlist['title'])
+        try:
+            shutil.move(file_name, playlist['title'])
+
+        except FileNotFoundError:
+            print("A error occurred while moving the file.")
+            continue
+
+        
         print(f"'{file_name}' moved to '{playlist['title']}' directory.")
         
 
