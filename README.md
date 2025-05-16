@@ -17,6 +17,7 @@ A simple script to download music from YouTube.
 
     # Powershell
     venv\Scripts\Activate.ps1
+    
     # CMD
     venv\Scripts\activate.bat
 
