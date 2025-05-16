@@ -63,8 +63,7 @@ def download_playlist(playlist_id):
        
         try:
             shutil.move(file_name, playlist['title'])
-
-        except FileNotFoundError:
+        except Exception:
             print("A error occurred while moving the file.")
             continue
 
