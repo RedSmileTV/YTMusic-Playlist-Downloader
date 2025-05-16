@@ -14,7 +14,7 @@ ytm = YTMusic('oauth.json', oauth_credentials=OAuthCredentials(client_id, client
 
 # Ask the user for the playlist ID and file extension
 playlist_id = input("Enter the playlist ID: ")
-file_extension = input("Enter the file extension (default: wav): ")
+file_extension = input("Enter the file extension [wav, mp3, m4a, aac, flac, opus] (default: wav): ")
 
 # Create a directory for the playlist
 def create_directory(dir_name):
