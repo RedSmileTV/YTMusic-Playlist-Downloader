@@ -40,7 +40,7 @@ A simple script to download music from YouTube.
     CLIENT_SECRET=YOUR_CLIENT_SECRET
     ```
 
-    **Once you got your Credentials and oauth.json in the working directory
+    **Once you got your credentials in your .env file and oauth.json in the working directory
     you can run the script**
 
 
