@@ -12,8 +12,9 @@ client_secret = dotenv.get_key(dotenv.find_dotenv(), "CLIENT_SECRET")
 # Initialize YTMusic with OAuth credentials
 ytm = YTMusic('oauth.json', oauth_credentials=OAuthCredentials(client_id, client_secret))
 
-# Ask the user for the playlist ID
+# Ask the user for the playlist ID and file extension
 playlist_id = input("Enter the playlist ID: ")
+file_extension = input("Enter the file extension (default: wav): ")
 
 # Create a directory for the playlist
 def create_directory(dir_name):
@@ -40,30 +41,29 @@ def download_playlist(playlist_id):
         song_title = song['title']
         song_id = song['videoId']
         song_artist = song['artists'][0]['name']
-        file_name = song_artist + " - " + song_title + ".mp3"
+        file_name = song_artist + " - " + song_title
         print("Downloading: ", song_title)
 
         # Remove unwanted characters from the song title
         file_name = remove_unwanted_char(file_name)
 
         # Check if the song is already downloaded
-        if os.path.exists(os.path.join(playlist['title'], song_title + ".mp3")):
+        if os.path.exists(os.path.join(playlist['title'], song_title + f'.{file_extension}')):
             print(f"'{song_title}' already downloaded.")
 
-        if os.path.exists(file_name) or os.path.exists(playlist['title'] + "/" + file_name):
+        if os.path.exists(file_name) or os.path.exists(playlist['title'] + "/" + file_name + f'.{file_extension}'):
             print(f"'{file_name}' already exists in the current directory or playlist directory.")
             continue
             
         # Download the song using yt-dlp        
         else:
-            command = f'yt-dlp -x --audio-format mp3 --output "{file_name}" {song_id}'
+            command = f'yt-dlp --embed-metadata -x --audio-format "{file_extension}" --output "{file_name}" {song_id}'
             try:
                 os.system(command)
             except Exception:
                 print(f"An error occurred while downloading '{song_title}'.")
                 continue
 
-       
         try:
             file_name = remove_unwanted_char(file_name)
             shutil.move(file_name, playlist['title'])
@@ -71,10 +71,8 @@ def download_playlist(playlist_id):
             print("A error occurred while moving the file.")
             continue
 
-        
         print(f"'{file_name}' moved to '{playlist['title']}' directory.")
         
-
     print("All songs downloaded successfully!")
 
 def remove_unwanted_char(song_title):
@@ -87,4 +85,7 @@ def remove_unwanted_char(song_title):
 
 # Main function
 if __name__ == "__main__":
+    if file_extension not in ["wav", "mp3", "m4a", "aac", "flac", "opus"]:
+        file_extension = "wav"
+    
     download_playlist(playlist_id)
