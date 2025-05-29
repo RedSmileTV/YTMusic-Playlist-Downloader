@@ -14,7 +14,7 @@ ytm = YTMusic('oauth.json', oauth_credentials=OAuthCredentials(client_id, client
 
 # Ask the user for the playlist ID and file extension
 playlist_id = input("Enter the playlist ID: ")
-file_extension = input("Enter the file extension [wav, mp3, m4a, aac, flac, opus] (default: wav): ")
+file_extension = input("Enter the file extension [mp3, m4a, wav] (default: mp3): ")
 
 # Create a directory for the playlist
 def create_directory(dir_name):
@@ -53,22 +53,30 @@ def download_playlist(playlist_id):
 
         if os.path.exists(file_name) or os.path.exists(playlist['title'] + "/" + file_name + f'.{file_extension}'):
             print(f"'{file_name}' already exists in the current directory or playlist directory.")
+            supported_extensions = ["mp3", "m4a", "aac", "flac", "opus"]
             continue
+
+        if file_extension == "wav":
+            command = f'yt-dlp --embed-metadata -x --audio-format "{file_extension}" --output "{file_name}" {song_id}'
+        
             
         # Download the song using yt-dlp        
         else:
-            command = f'yt-dlp --embed-metadata -x --audio-format "{file_extension}" --output "{file_name}" {song_id}'
-            try:
-                os.system(command)
-            except Exception:
-                print(f"An error occurred while downloading '{song_title}'.")
-                continue
-
+            command = f'yt-dlp --embed-thumbnail --embed-metadata -x --audio-format "{file_extension}" --output "{file_name}" {song_id}'
+        
+        try:
+            os.system(command)
+        except Exception:
+            print(f"An error occurred while downloading '{song_title}'.")
+            continue
+        
         try:
             file_name = remove_unwanted_char(file_name)
-            shutil.move(file_name, playlist['title'])
-        except Exception:
+            file = file_name + f'.{file_extension}'
+            shutil.move(file, playlist['title'])
+        except Exception as e:
             print("A error occurred while moving the file.")
+            print(e)
             continue
 
         print(f"'{file_name}' moved to '{playlist['title']}' directory.")
@@ -85,7 +93,7 @@ def remove_unwanted_char(song_title):
 
 # Main function
 if __name__ == "__main__":
-    if file_extension not in ["wav", "mp3", "m4a", "aac", "flac", "opus"]:
-        file_extension = "wav"
+    if file_extension not in ["mp3", "m4a", "wav"]:
+        file_extension = "mp3"
     
     download_playlist(playlist_id)

@@ -58,3 +58,15 @@ A simple script to download music from YouTube.
 
 - A Folder with the playlist name will be created in the current directory
 - Any spaces in the playlist name will be replaced by "_"
+
+## Comparision Table
+
+| Feature                | MP3                          | M4A (AAC/ALAC)               | WAV                           |
+|------------------------|-------------------------------|-------------------------------|-------------------------------|
+| **Compression**        | Lossy                        | Lossy (AAC) / Lossless (ALAC) | Uncompressed                  |
+| **Audio Quality**      | Good                         | Better than MP3 at same bitrate | Excellent (no quality loss)  |
+| **File Size**          | Small                        | Smaller than WAV, similar or smaller than MP3 | Very large                    |
+| **Compatibility**      | Extremely high               | Moderate to high              | High on modern systems        |
+| **Metadata Support**   | Good                         | Excellent                     | Limited  (No Cover Art)                     |
+| **Streaming Suitability** | Excellent                 | Good                          | Poor                          |
+
